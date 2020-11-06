@@ -34,9 +34,29 @@ def peek(count, idx):
     return False
 
 
+def rotate_name(room_name, count):
+    """Rotates the characters in the room name for count"""
+    restructured_name = []
+    for word in room_name:
+        for letter in word:
+            restructured_name.append(calculate_letter(letter, count))
+        restructured_name.append(' ')
+    return ''.join(restructured_name)
+
+
+def calculate_letter(letter, count):
+    """Calculates the letter based on count"""
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+               'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+               's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    idx = letters.index(letter)
+    return letters[(idx+count) % 26]
+
+
 with open('./day4/input.txt', 'r') as f:
     input = f.readlines()
 id_count = 0
+room_list = []
 for line in input:
     splitted_string = line.strip('\n').split('-')
     count = letter_count(splitted_string[:-1])
@@ -44,5 +64,9 @@ for line in input:
     checksum = list(splitted_string[-1].removeprefix(id)[1:-1])
     if real_room(count, checksum):
         id_count += int(id)
-
-print(id_count)
+        room_list.append((splitted_string[:-1], int(id)))
+print(f'sum of ids: {id_count}')
+for room in room_list:
+    rotated_name = rotate_name(room[0], room[1])
+    if 'northpole' in rotated_name:
+        print(rotated_name, room[1])
