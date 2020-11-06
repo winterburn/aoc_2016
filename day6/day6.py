@@ -8,5 +8,5 @@ for message in messages:
         letters_per_pos[idx][letter] += 1
 for pos in letters_per_pos:
     word += sorted(letters_per_pos[pos].items(),
-                   key=lambda x: x[1], reverse=True)[0][0]
+                   key=lambda x: x[1])[0][0]
 print(word)
